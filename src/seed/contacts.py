@@ -2,9 +2,10 @@ from faker import Faker
 from src.database.db import DBSession
 from src.database.models import Contact
 
+
 fake = Faker()
 session = DBSession()
-quantity_contact = 100
+quantity_contact = 10000
 
 
 def create_contact_person(quantity):
@@ -14,7 +15,7 @@ def create_contact_person(quantity):
             last_name=fake.last_name(),
             email=fake.ascii_free_email(),
             phone_number=fake.phone_number(),
-            birthday=fake.date_time(),
+            birthday=fake.date_of_birth(),
             description=fake.name()
         )
         session.add(contact)

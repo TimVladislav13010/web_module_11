@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 from sqlalchemy.orm import Session
 
 from src.database.models import Contact
@@ -48,24 +50,62 @@ async def search_contacts(db: Session, first_name: str = None, last_name: str = 
         return db.query(Contact).filter(Contact.first_name == first_name.capitalize(),
                                         Contact.last_name == last_name.capitalize(),
                                         Contact.email == email.lower()
-                                        ).first()
+                                        ).all()
     elif first_name and last_name:
         return db.query(Contact).filter(Contact.first_name == first_name.capitalize(),
                                         Contact.last_name == last_name.capitalize()
-                                        ).first()
+                                        ).all()
     elif last_name and email:
         return db.query(Contact).filter(Contact.last_name == last_name.capitalize(),
                                         Contact.email == email.lower()
-                                        ).first()
+                                        ).all()
     elif first_name and email:
         return db.query(Contact).filter(Contact.first_name == first_name.capitalize(),
                                         Contact.email == email.lower()
-                                        ).first()
+                                        ).all()
     elif first_name:
-        return db.query(Contact).filter(Contact.first_name == first_name.capitalize()).first()
+        return db.query(Contact).filter(Contact.first_name == first_name.capitalize()).all()
     elif last_name:
-        return db.query(Contact).filter(Contact.last_name == last_name.capitalize()).first()
+        return db.query(Contact).filter(Contact.last_name == last_name.capitalize()).all()
     elif email:
-        return db.query(Contact).filter(Contact.email == email.lower()).first()
+        return db.query(Contact).filter(Contact.email == email.lower()).all()
 
     return None
+
+
+async def birthday_contacts(db: Session):
+    result = list()
+    contacts = db.query(Contact).all()
+
+    day_one = datetime.today().strftime("%m-%d")
+
+    day_two = datetime.today() + timedelta(days=1)
+    day_two = day_two.strftime("%m-%d")
+
+    day_three = datetime.today() + timedelta(days=2)
+    day_three = day_three.strftime("%m-%d")
+
+    day_four = datetime.today() + timedelta(days=3)
+    day_four = day_four.strftime("%m-%d")
+
+    day_five = datetime.today() + timedelta(days=4)
+    day_five = day_five.strftime("%m-%d")
+
+    day_six = datetime.today() + timedelta(days=5)
+    day_six = day_six.strftime("%m-%d")
+
+    day_seven = datetime.today() + timedelta(days=6)
+    day_seven = day_seven.strftime("%m-%d")
+
+    for contact in contacts:
+        if day_one in contact.birthday.strftime("%m-%d") or\
+            day_two in contact.birthday.strftime("%m-%d") or\
+            day_three in contact.birthday.strftime("%m-%d") or\
+            day_four in contact.birthday.strftime("%m-%d") or\
+            day_five in contact.birthday.strftime("%m-%d") or\
+            day_six in contact.birthday.strftime("%m-%d") or\
+                day_seven in contact.birthday.strftime("%m-%d"):
+
+            result.append(contact)
+
+    return result

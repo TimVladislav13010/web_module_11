@@ -10,9 +10,15 @@ from src.repository import contacts as repository_contacts
 router = APIRouter(prefix="/contacts", tags=['contacts'])
 
 
-@router.get("/search", response_model=ContactResponse)
+@router.get("/search", response_model=List[ContactResponse])
 async def search_contacts(first_name: str = Query(None), last_name: str = Query(None), email: str = Query(None), db: Session = Depends(get_db)):
     contacts = await repository_contacts.search_contacts(db, first_name, last_name, email)
+    return contacts
+
+
+@router.get("/birthday", response_model=List[ContactResponse])
+async def birthday_contacts(db: Session = Depends(get_db)):
+    contacts = await repository_contacts.birthday_contacts(db)
     return contacts
 
 
