@@ -16,6 +16,9 @@ sqlalchemy = "^2.0.8"
 pydentic = {extras = ["email"], version = "^0.0.1.dev3"}
 pydantic = {extras = ["email"], version = "^1.10.7"}
 faker = "^18.3.2"
+python-jose = {extras = ["cryptography"], version = "^3.3.0"}
+passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+python-multipart = "^0.0.6"
 
 
 [build-system]
