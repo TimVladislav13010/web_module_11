@@ -37,3 +37,4 @@ class User(Base):
     created_at = Column('crated_at', DateTime, default=func.now())
     refresh_token = Column(String(255), nullable=True)
     roles = Column('roles', Enum(Role), default=Role.user)
+    avatar = Column(String(255), nullable=True)

@@ -35,20 +35,30 @@ class UserModel(BaseModel):
     password: str = Field(min_length=6, max_length=10)
 
 
-class UserDb(BaseModel):
+# class UserDb(BaseModel):
+#     id: int
+#     username: str
+#     email: str
+#     created_at: datetime
+#     roles: Role
+#     avatar: str
+#
+#     class Config:
+#         orm_mode = True
+
+
+class UserResponse(BaseModel):
+    # user: UserDb
+    # detail: str = "User successfully created"
     id: int
     username: str
     email: str
     created_at: datetime
     roles: Role
+    avatar: str
 
     class Config:
         orm_mode = True
-
-
-class UserResponse(BaseModel):
-    user: UserDb
-    detail: str = "User successfully created"
 
 
 class TokenModel(BaseModel):
