@@ -1,6 +1,7 @@
 from typing import List
 
 from fastapi import Depends, HTTPException, status, Path, APIRouter, Query
+from fastapi_limiter.depends import RateLimiter
 from sqlalchemy.orm import Session
 
 from src.database.db import get_db
@@ -18,7 +19,8 @@ allowed_operation_update = RoleAccess([Role.admin, Role.moderator])
 allowed_operation_remove = RoleAccess([Role.admin])
 
 
-@router.get("/search", response_model=List[ContactResponse], dependencies=[Depends(allowed_operation_get)])
+@router.get("/search", response_model=List[ContactResponse], dependencies=[Depends(allowed_operation_get),
+                                                                           Depends(RateLimiter(times=2, seconds=5))])
 async def search_contacts(first_name: str = Query(None),
                           last_name: str = Query(None),
                           email: str = Query(None),
@@ -28,13 +30,15 @@ async def search_contacts(first_name: str = Query(None),
     return contacts
 
 
-@router.get("/birthday", response_model=List[ContactResponse], dependencies=[Depends(allowed_operation_get)])
+@router.get("/birthday", response_model=List[ContactResponse], dependencies=[Depends(allowed_operation_get),
+                                                                             Depends(RateLimiter(times=2, seconds=5))])
 async def birthday_contacts(current_user: User = Depends(auth_service.get_current_user), db: Session = Depends(get_db)):
     contacts = await repository_contacts.birthday_contacts(current_user, db)
     return contacts
 
 
-@router.get("/", response_model=List[ContactResponse], dependencies=[Depends(allowed_operation_get)])
+@router.get("/", response_model=List[ContactResponse], dependencies=[Depends(allowed_operation_get),
+                                                                     Depends(RateLimiter(times=2, seconds=5))])
 async def get_contacts(limit: int = Query(10, le=500), offset: int = 0,
                        current_user: User = Depends(auth_service.get_current_user),
                        db: Session = Depends(get_db)):
@@ -42,7 +46,8 @@ async def get_contacts(limit: int = Query(10, le=500), offset: int = 0,
     return contacts
 
 
-@router.get("/{contact_id}", response_model=ContactResponse, dependencies=[Depends(allowed_operation_get)])
+@router.get("/{contact_id}", response_model=ContactResponse, dependencies=[Depends(allowed_operation_get),
+                                                                           Depends(RateLimiter(times=2, seconds=5))])
 async def get_contact(contact_id: int = Path(ge=1),
                       current_user: User = Depends(auth_service.get_current_user),
                       db: Session = Depends(get_db)):
@@ -54,7 +59,8 @@ async def get_contact(contact_id: int = Path(ge=1),
 
 @router.post("/", response_model=ContactResponse,
              status_code=status.HTTP_201_CREATED,
-             dependencies=[Depends(allowed_operation_create)])
+             dependencies=[Depends(allowed_operation_create),
+                           Depends(RateLimiter(times=2, seconds=5))])
 async def create_contact(body: ContactModel,
                          current_user: User = Depends(auth_service.get_current_user),
                          db: Session = Depends(get_db)):
@@ -62,7 +68,8 @@ async def create_contact(body: ContactModel,
     return contact
 
 
-@router.put("/{contact_id}", response_model=ContactResponse, dependencies=[Depends(allowed_operation_update)])
+@router.put("/{contact_id}", response_model=ContactResponse, dependencies=[Depends(allowed_operation_update),
+                                                                           Depends(RateLimiter(times=2, seconds=5))])
 async def update_contact(body: ContactModel,
                          contact_id: int = Path(ge=1),
                          current_user: User = Depends(auth_service.get_current_user),
@@ -73,7 +80,9 @@ async def update_contact(body: ContactModel,
     return contact
 
 
-@router.delete("/{contact_id}", status_code=status.HTTP_204_NO_CONTENT, dependencies=[Depends(allowed_operation_remove)])
+@router.delete("/{contact_id}", status_code=status.HTTP_204_NO_CONTENT,
+               dependencies=[Depends(allowed_operation_remove),
+                             Depends(RateLimiter(times=2, seconds=5))])
 async def remove_contact(contact_id: int = Path(ge=1),
                          current_user: User = Depends(auth_service.get_current_user),
                          db: Session = Depends(get_db)):

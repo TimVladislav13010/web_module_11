@@ -3,6 +3,7 @@ from typing import List
 from fastapi import APIRouter, HTTPException, Depends, status, Security, BackgroundTasks, Request
 from fastapi.security import OAuth2PasswordRequestForm, HTTPAuthorizationCredentials, HTTPBearer
 from sqlalchemy.orm import Session
+from fastapi_limiter.depends import RateLimiter
 
 from src.database.db import get_db
 from src.schemas import UserModel, UserResponse, TokenModel, RequestEmail
@@ -14,7 +15,9 @@ router = APIRouter(prefix='/auth', tags=["auth"])
 security = HTTPBearer()
 
 
-@router.post("/signup", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
+@router.post("/signup", response_model=UserResponse,
+             status_code=status.HTTP_201_CREATED,
+             dependencies=[Depends(RateLimiter(times=2, seconds=5))])
 async def signup(body: UserModel, background_tasks: BackgroundTasks, request: Request, db: Session = Depends(get_db)):
     exist_user = await repository_users.get_user_by_email(body.email, db)
     if exist_user:
@@ -25,7 +28,7 @@ async def signup(body: UserModel, background_tasks: BackgroundTasks, request: Re
     return new_user
 
 
-@router.post("/login", response_model=TokenModel)
+@router.post("/login", response_model=TokenModel, dependencies=[Depends(RateLimiter(times=2, seconds=5))])
 async def login(body: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     user = await repository_users.get_user_by_email(body.username, db)
     if user is None:

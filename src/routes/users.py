@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, status, UploadFile, File
+from fastapi_limiter.depends import RateLimiter
 from sqlalchemy.orm import Session
 
 
@@ -13,12 +14,12 @@ from src.services.cloud_image import CloudImage
 router = APIRouter(prefix="/users", tags=["users"])
 
 
-@router.get("/me/", response_model=UserResponse)
+@router.get("/me/", response_model=UserResponse, dependencies=[Depends(RateLimiter(times=2, seconds=5))])
 async def read_users_me(current_user: User = Depends(auth_service.get_current_user)):
     return current_user
 
 
-@router.patch('/avatar', response_model=UserResponse)
+@router.patch('/avatar', response_model=UserResponse, dependencies=[Depends(RateLimiter(times=2, seconds=5))])
 async def update_avatar_user(file: UploadFile = File(), current_user: User = Depends(auth_service.get_current_user),
                              db: Session = Depends(get_db)):
     public_id = CloudImage.generate_name_avatar(current_user.email)
