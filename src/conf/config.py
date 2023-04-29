@@ -15,6 +15,7 @@ class Settings(BaseSettings):
     cloudinary_name: str = 'name'
     cloudinary_api_key: int = 123456789123
     cloudinary_api_secret: str = 'secret'
+    cors_allow_origins: list = ["http://localhost:3000"]
 
     class Config:
         env_file = ".env"
