@@ -1,6 +1,11 @@
 from pydantic import BaseSettings
 
 
+"""
+Config app.
+"""
+
+
 class Settings(BaseSettings):
     sqlalchemy_database_url: str = 'postgresql+psycopg2://user:password@localhost:5432/postgres'
     secret_key: str = 'secret_key'

@@ -5,6 +5,12 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from src.conf.config import settings
 
+
+"""
+Database connection.
+"""
+
+
 URI = settings.sqlalchemy_database_url
 
 engine = create_engine(URI, echo=True)
@@ -13,6 +19,13 @@ DBSession = sessionmaker(bind=engine, autoflush=False, autocommit=False)
 
 # Dependency
 def get_db():
+    """
+    The get_db function is a context manager that will automatically close the database session at the end of a request.
+    It also handles any exceptions that occur during the request, rolling back any changes to the database if an exception occurs.
+
+    :return: A database connection
+    :doc-author: Trelent
+    """
     db = DBSession()
     try:
         yield db

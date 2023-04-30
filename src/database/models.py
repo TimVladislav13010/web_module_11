@@ -4,16 +4,28 @@ from sqlalchemy import Column, Integer, String, DateTime, func, Date, Enum, Bool
 from sqlalchemy.orm import declarative_base, relationship
 from sqlalchemy.sql.schema import ForeignKey
 
+
+"""
+Models database.
+"""
+
+
 Base = declarative_base()
 
 
 class Role(enum.Enum):
+    """
+    Roles users.
+    """
     admin: str = 'admin'
     moderator: str = 'moderator'
     user: str = 'user'
 
 
 class Contact(Base):
+    """
+    Table Contact.
+    """
     __tablename__ = "contact"
     id = Column(Integer, primary_key=True)
     first_name = Column(String, nullable=False)
@@ -29,6 +41,9 @@ class Contact(Base):
 
 
 class User(Base):
+    """
+    Table User.
+    """
     __tablename__ = "users"
     id = Column(Integer, primary_key=True)
     username = Column(String(50))
