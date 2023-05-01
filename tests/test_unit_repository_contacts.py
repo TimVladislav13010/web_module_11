@@ -130,3 +130,24 @@ class TestContacts(unittest.IsolatedAsyncioTestCase):
         with patch("src.repository.contacts.get_contact_by_id", return_value=mock_contact):
             result = await remove(contact_id=0, user=self.user, db=self.session)
         self.assertIsNone(result)
+
+    async def test_search_contacts_found_FirstName_LastName_Email(self):
+        self.session.query().filter().all.return_value = [self.user.contacts[0]]
+        result = await search_contacts(user=self.user,
+                                       db=self.session,
+                                       first_name="test_name_1",
+                                       last_name="test_last_name_1",
+                                       email="cont1@test.com")
+        self.assertIn(self.user.contacts[0], result)
+        self.assertGreater(len(result), 0)
+        self.assertTrue(result)
+
+    async def test_search_contacts_not_found_FirstName_LastName_Email(self):
+        self.session.query().filter().all.return_value = list()
+        result = await search_contacts(user=self.user,
+                                       db=self.session,
+                                       first_name="test_name_1",
+                                       last_name="test_last_name_1",
+                                       email="cont1@test.com")
+        self.assertLess(len(result), 1)
+        self.assertFalse(result)
