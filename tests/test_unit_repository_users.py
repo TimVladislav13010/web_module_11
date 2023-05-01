@@ -26,7 +26,14 @@ class TestUsers(unittest.IsolatedAsyncioTestCase):
         :doc-author: Trelent
         """
         self.session = MagicMock(spec=Session)
-        self.user = User(id=1, email="test@test.com")
+        self.user = User(id=1,
+                         username="test_username",
+                         email="test@test.com",
+                         password="test_password",
+                         refresh_token=None,
+                         avatar=None,
+                         confirmed=False
+                         )
 
     async def test_get_user_by_email(self):
         """
@@ -70,3 +77,57 @@ class TestUsers(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(result.username, "test_user")
         self.assertEqual(result.password, "123456")
         mock_gravatar.get_image.assert_called_once()
+
+    async def test_update_token(self):
+        """
+        The test_update_token function tests the update_token function in the database.py file.
+        It creates a new user, and then updates that user's refresh token to be &quot;new_test_token&quot;.
+        Then it asserts that the new token is equal to what was set.
+
+        :param self: Represent the instance of a class
+        :return: The new_token, which is equal to the user
+        :doc-author: Trelent
+        """
+        self.new_token = "new_test_token"
+        await update_token(user=self.user, token=self.new_token, db=self.session)
+        self.assertEqual(self.new_token, self.user.refresh_token)
+        self.assertIsNotNone(self.user.refresh_token)
+
+    async def test_update_avatar(self):
+        """
+        The test_update_avatar function tests the update_avatar function in the users repository.
+        It does this by first creating a mock user object, and then patching get_user_by_email to return that mock user.
+        Then it calls update avatar with that mocked user, and checks if the result is not None (meaning it was successful).
+        It also checks if the result's avatar attribute is not None (meaning an avatar was successfully added),
+        and whether or not it equals our test url.
+
+        :param self: Represent the instance of the class
+        :return: The user object with the new avatar
+        :doc-author: Trelent
+        """
+        mock_user = self.user
+        self.avatar = "url//new_avatar"
+        with patch("src.repository.users.get_user_by_email", return_value=mock_user):
+            result = await update_avatar(mock_user, url=self.avatar, db=self.session)
+        self.assertIsNotNone(result)
+        self.assertIsNotNone(result.avatar)
+        self.assertEqual(result, mock_user)
+        self.assertEqual(self.avatar, result.avatar)
+
+    async def test_confirmed_email(self):
+
+        """
+        The test_confirmed_email function tests the confirmed_email function in the users.py file.
+        It does this by mocking a user and then patching get_user_by_email to return that mocked user,
+        and then calling confirmed email with that mocked user as an argument.
+
+        :param self: Access the attributes of the class
+        :return: The value of the user's confirmed attribute
+        :doc-author: Trelent
+        """
+        mock_user = self.user
+        self.confirmed = True
+        with patch("src.repository.users.get_user_by_email", return_value=mock_user):
+            await confirmed_email(mock_user, db=self.session)
+        self.assertIsNotNone(mock_user.confirmed)
+        self.assertIs(mock_user.confirmed, True)

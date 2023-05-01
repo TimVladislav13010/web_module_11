@@ -91,6 +91,14 @@ REST API service Roles
   :show-inheritance:
 
 
+REST API tests TestUnitRepositoryUsers
+======================================
+.. automodule:: tests.test_unit_repository_users
+  :members:
+  :undoc-members:
+  :show-inheritance:
+
+
 Indices and tables
 ==================
 

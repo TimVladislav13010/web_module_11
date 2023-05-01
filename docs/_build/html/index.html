@@ -1074,6 +1074,131 @@ If no public_id is provided, one will be generated automatically.</p>
 </dd></dl>
 
 </section>
+<section id="module-tests.test_unit_repository_users">
+<span id="rest-api-tests-testunitrepositoryusers"></span><h1>REST API tests TestUnitRepositoryUsers<a class="headerlink" href="#module-tests.test_unit_repository_users" title="Permalink to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="tests.test_unit_repository_users.TestUsers">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tests.test_unit_repository_users.</span></span><span class="sig-name descname"><span class="pre">TestUsers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_unit_repository_users.TestUsers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IsolatedAsyncioTestCase</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_unit_repository_users.TestUsers.setUp">
+<span class="sig-name descname"><span class="pre">setUp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_unit_repository_users.TestUsers.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>The setUp function is called before each test function.
+It creates a new session object and user object for each test.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>self</strong> – Represent the instance of the object that is being created</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A user object with an id of 1 and email address</p>
+</dd>
+<dt class="field-odd">Doc-author<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Trelent</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_unit_repository_users.TestUsers.test_confirmed_email">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">test_confirmed_email</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_unit_repository_users.TestUsers.test_confirmed_email" title="Permalink to this definition">¶</a></dt>
+<dd><p>The test_confirmed_email function tests the confirmed_email function in the users.py file.
+It does this by mocking a user and then patching get_user_by_email to return that mocked user,
+and then calling confirmed email with that mocked user as an argument.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>self</strong> – Access the attributes of the class</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The value of the user’s confirmed attribute</p>
+</dd>
+<dt class="field-odd">Doc-author<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Trelent</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_unit_repository_users.TestUsers.test_create_user">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">test_create_user</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_unit_repository_users.TestUsers.test_create_user" title="Permalink to this definition">¶</a></dt>
+<dd><p>The test_create_user function tests the create_user function in the users repository.
+It does this by creating a new user, mocking out Gravatar’s get_image method to return a test URL, and then calling
+create_user with that user as an argument. It then asserts that the result is not None (i.e., it exists), is an instance of User, has all of its attributes set correctly.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>self</strong> – Access the class variables and methods</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A user object</p>
+</dd>
+<dt class="field-odd">Doc-author<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Trelent</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_unit_repository_users.TestUsers.test_get_user_by_email">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">test_get_user_by_email</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_unit_repository_users.TestUsers.test_get_user_by_email" title="Permalink to this definition">¶</a></dt>
+<dd><p>The test_get_user_by_email function tests the get_user_by_email function in the user.py file.
+It does this by mocking out a session object and returning a mocked User object when queried for
+a specific email address. The test then asserts that the returned value is not None, is an instance of User,
+and has an email and id equal to what was set on our mock.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>self</strong> – Refer to the instance of the class</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A user object that is not none</p>
+</dd>
+<dt class="field-odd">Doc-author<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Trelent</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_unit_repository_users.TestUsers.test_update_avatar">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">test_update_avatar</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_unit_repository_users.TestUsers.test_update_avatar" title="Permalink to this definition">¶</a></dt>
+<dd><p>The test_update_avatar function tests the update_avatar function in the users repository.
+It does this by first creating a mock user object, and then patching get_user_by_email to return that mock user.
+Then it calls update avatar with that mocked user, and checks if the result is not None (meaning it was successful).
+It also checks if the result’s avatar attribute is not None (meaning an avatar was successfully added),
+and whether or not it equals our test url.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>self</strong> – Represent the instance of the class</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The user object with the new avatar</p>
+</dd>
+<dt class="field-odd">Doc-author<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Trelent</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_unit_repository_users.TestUsers.test_update_token">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">test_update_token</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_unit_repository_users.TestUsers.test_update_token" title="Permalink to this definition">¶</a></dt>
+<dd><p>The test_update_token function tests the update_token function in the database.py file.
+It creates a new user, and then updates that user’s refresh token to be &amp;quot;new_test_token&amp;quot;.
+Then it asserts that the new token is equal to what was set.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>self</strong> – Represent the instance of a class</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The new_token, which is equal to the user</p>
+</dd>
+<dt class="field-odd">Doc-author<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Trelent</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
 <section id="indices-and-tables">
 <h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this heading">¶</a></h1>
 <ul class="simple">
@@ -1175,6 +1300,18 @@ If no public_id is provided, one will be generated automatically.</p>
 </li>
 <li><a class="reference internal" href="#module-src.services.roles">REST API service Roles</a><ul>
 <li><a class="reference internal" href="#src.services.roles.RoleAccess"><code class="docutils literal notranslate"><span class="pre">RoleAccess</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-tests.test_unit_repository_users">REST API tests TestUnitRepositoryUsers</a><ul>
+<li><a class="reference internal" href="#tests.test_unit_repository_users.TestUsers"><code class="docutils literal notranslate"><span class="pre">TestUsers</span></code></a><ul>
+<li><a class="reference internal" href="#tests.test_unit_repository_users.TestUsers.setUp"><code class="docutils literal notranslate"><span class="pre">TestUsers.setUp()</span></code></a></li>
+<li><a class="reference internal" href="#tests.test_unit_repository_users.TestUsers.test_confirmed_email"><code class="docutils literal notranslate"><span class="pre">TestUsers.test_confirmed_email()</span></code></a></li>
+<li><a class="reference internal" href="#tests.test_unit_repository_users.TestUsers.test_create_user"><code class="docutils literal notranslate"><span class="pre">TestUsers.test_create_user()</span></code></a></li>
+<li><a class="reference internal" href="#tests.test_unit_repository_users.TestUsers.test_get_user_by_email"><code class="docutils literal notranslate"><span class="pre">TestUsers.test_get_user_by_email()</span></code></a></li>
+<li><a class="reference internal" href="#tests.test_unit_repository_users.TestUsers.test_update_avatar"><code class="docutils literal notranslate"><span class="pre">TestUsers.test_update_avatar()</span></code></a></li>
+<li><a class="reference internal" href="#tests.test_unit_repository_users.TestUsers.test_update_token"><code class="docutils literal notranslate"><span class="pre">TestUsers.test_update_token()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
