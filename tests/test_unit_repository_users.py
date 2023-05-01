@@ -4,7 +4,7 @@ from unittest.mock import MagicMock, patch
 from sqlalchemy.orm import Session
 
 from src.database.models import User
-from src.schemas import UserModel, UserResponse
+from src.schemas import UserModel
 from src.repository.users import (
     get_user_by_email,
     create_user,
@@ -12,6 +12,11 @@ from src.repository.users import (
     update_avatar,
     confirmed_email
 )
+
+
+"""
+Unittest repository users.
+"""
 
 
 class TestUsers(unittest.IsolatedAsyncioTestCase):
