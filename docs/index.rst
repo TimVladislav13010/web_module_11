@@ -99,6 +99,14 @@ REST API tests TestUnitRepositoryUsers
   :show-inheritance:
 
 
+REST API tests TestUnitRepositoryContacts
+=========================================
+.. automodule:: tests.test_unit_repository_contacts
+  :members:
+  :undoc-members:
+  :show-inheritance:
+
+
 Indices and tables
 ==================
 
