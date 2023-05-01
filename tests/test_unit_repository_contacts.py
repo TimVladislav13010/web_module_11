@@ -68,6 +68,13 @@ class TestContacts(unittest.IsolatedAsyncioTestCase):
                          contacts=[self.first_contact, self.second_contact, self.third_contact]
                          )
 
+        self.new_contact = ContactModel(first_name="test_first",
+                                   last_name="test_last",
+                                   email="example@example.com",
+                                   phone_number="+380687770001",
+                                   birthday=datetime.datetime.now(),
+                                   description="12345678910")
+
     async def test_get_contacts(self):
         self.session.query().filter().limit().offset().all.return_value = self.user.contacts
         result = await get_contacts(limit=10, offset=0, user=self.user, db=self.session)
@@ -83,17 +90,20 @@ class TestContacts(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(result.id, 1)
 
     async def test_create(self):
-        new_contact = ContactModel(first_name="test_first",
-                                   last_name="test_last",
-                                   email="example@example.com",
-                                   phone_number="+380687770001",
-                                   birthday=datetime.datetime.now(),
-                                   description="12345678910")
+        new_cont = self.new_contact
 
-        result = await create(body=new_contact, user=self.user, db=self.session)
+        result = await create(body=new_cont, user=self.user, db=self.session)
         self.assertIsInstance(result, Contact)
-        self.assertEqual(new_contact.first_name, "test_first")
-        self.assertEqual(new_contact.last_name, "test_last")
-        self.assertEqual(new_contact.email, "example@example.com")
-        self.assertEqual(new_contact.phone_number, "+380687770001")
-        self.assertEqual(new_contact.description, "12345678910")
+        self.assertEqual(new_cont.first_name, "test_first")
+        self.assertEqual(new_cont.last_name, "test_last")
+        self.assertEqual(new_cont.email, "example@example.com")
+        self.assertEqual(new_cont.phone_number, "+380687770001")
+        self.assertEqual(new_cont.description, "12345678910")
+
+    async def test_update(self):
+        mock_contact = self.first_contact
+        with patch("src.repository.contacts.get_contact_by_id", return_value=mock_contact):
+            result = await update(contact_id=mock_contact, body=self.new_contact, user=self.user, db=self.session)
+        self.assertIsInstance(result, Contact)
+        self.assertEqual(result, mock_contact)
+        self.assertIsNotNone(result)
