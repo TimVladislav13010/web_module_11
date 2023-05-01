@@ -4,7 +4,6 @@ import datetime
 from unittest.mock import MagicMock, patch
 
 from sqlalchemy.orm import Session
-from sqlalchemy import and_
 
 from src.database.models import Contact, User
 from src.schemas import ContactModel, ContactResponse
@@ -69,11 +68,11 @@ class TestContacts(unittest.IsolatedAsyncioTestCase):
                          )
 
         self.new_contact = ContactModel(first_name="test_first",
-                                   last_name="test_last",
-                                   email="example@example.com",
-                                   phone_number="+380687770001",
-                                   birthday=datetime.datetime.now(),
-                                   description="12345678910")
+                                        last_name="test_last",
+                                        email="example@example.com",
+                                        phone_number="+380687770001",
+                                        birthday=datetime.datetime.now(),
+                                        description="12345678910")
 
     async def test_get_contacts(self):
         self.session.query().filter().limit().offset().all.return_value = self.user.contacts
@@ -82,12 +81,17 @@ class TestContacts(unittest.IsolatedAsyncioTestCase):
         self.assertIsNotNone(result)
         self.assertIsInstance(result, list)
 
-    async def test_get_contact_by_id(self):
+    async def test_get_contact_by_id_found(self):
         self.session.query().filter().first.return_value = self.user.contacts[0]
         result = await get_contact_by_id(contact_id=1, user=self.user, db=self.session)
         self.assertIsInstance(result, Contact)
         self.assertEqual(result, self.user.contacts[0])
         self.assertEqual(result.id, 1)
+
+    async def test_get_contact_by_id_not_found(self):
+        self.session.query().filter().first.return_value = None
+        result = await get_contact_by_id(contact_id=1, user=self.user, db=self.session)
+        self.assertIsNone(result)
 
     async def test_create(self):
         new_cont = self.new_contact
@@ -100,10 +104,29 @@ class TestContacts(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(new_cont.phone_number, "+380687770001")
         self.assertEqual(new_cont.description, "12345678910")
 
-    async def test_update(self):
+    async def test_update_found(self):
         mock_contact = self.first_contact
         with patch("src.repository.contacts.get_contact_by_id", return_value=mock_contact):
-            result = await update(contact_id=mock_contact, body=self.new_contact, user=self.user, db=self.session)
+            result = await update(contact_id=mock_contact.id, body=self.new_contact, user=self.user, db=self.session)
         self.assertIsInstance(result, Contact)
         self.assertEqual(result, mock_contact)
         self.assertIsNotNone(result)
+
+    async def test_update_not_found(self):
+        mock_contact = None
+        with patch("src.repository.contacts.get_contact_by_id", return_value=mock_contact):
+            result = await update(contact_id=0, body=self.new_contact, user=self.user, db=self.session)
+        self.assertIsNone(result)
+
+    async def test_remove_found(self):
+        mock_contact = self.first_contact
+        with patch("src.repository.contacts.get_contact_by_id", return_value=mock_contact):
+            result = await remove(contact_id=mock_contact.id, user=self.user, db=self.session)
+        self.assertIsInstance(result, Contact)
+        self.assertEqual(result, mock_contact)
+
+    async def test_remove_not_found(self):
+        mock_contact = None
+        with patch("src.repository.contacts.get_contact_by_id", return_value=mock_contact):
+            result = await remove(contact_id=0, user=self.user, db=self.session)
+        self.assertIsNone(result)

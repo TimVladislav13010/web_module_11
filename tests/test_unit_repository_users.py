@@ -40,7 +40,7 @@ class TestUsers(unittest.IsolatedAsyncioTestCase):
                          confirmed=False
                          )
 
-    async def test_get_user_by_email(self):
+    async def test_get_user_by_email_found(self):
         """
         The test_get_user_by_email function tests the get_user_by_email function in the user.py file.
         It does this by mocking out a session object and returning a mocked User object when queried for
@@ -57,6 +57,21 @@ class TestUsers(unittest.IsolatedAsyncioTestCase):
         self.assertIsInstance(result, User)
         self.assertEqual(result.email, "test@test.com")
         self.assertEqual(result.id, 1)
+
+    async def test_get_user_by_email_not_found(self):
+        """
+        The test_get_user_by_email_not_found function tests the get_user_by_email function when a user is not found.
+            It does this by mocking the session object and setting its query().filter().first() method to return None.
+            Then it calls get_user_by_email with an email address that should not be in the database, and asserts that
+            None is returned.
+
+        :param self: Represent the instance of the object that is passed to the method when it is called
+        :return: None
+        :doc-author: Trelent
+        """
+        self.session.query().filter().first.return_value = None
+        result = await get_user_by_email(email="test@test.com", db=self.session)
+        self.assertIsNone(result)
 
     async def test_create_user(self):
         """
