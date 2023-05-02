@@ -1712,6 +1712,191 @@ The test asserts that None is returned.</p>
 </dd></dl>
 
 </section>
+<section id="module-tests.conftest">
+<span id="rest-api-tests-conftest"></span><h1>REST API tests ConfTest<a class="headerlink" href="#module-tests.conftest" title="Permalink to this heading">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.conftest.client">
+<span class="sig-prename descclassname"><span class="pre">tests.conftest.</span></span><span class="sig-name descname"><span class="pre">client</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests.conftest.client" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.conftest.session">
+<span class="sig-prename descclassname"><span class="pre">tests.conftest.</span></span><span class="sig-name descname"><span class="pre">session</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.conftest.session" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.conftest.user">
+<span class="sig-prename descclassname"><span class="pre">tests.conftest.</span></span><span class="sig-name descname"><span class="pre">user</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.conftest.user" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-tests.test_main">
+<span id="rest-api-tests-testfunctionalmain"></span><h1>REST API tests TestFunctionalMain<a class="headerlink" href="#module-tests.test_main" title="Permalink to this heading">¶</a></h1>
+<dl class="py data">
+<dt class="sig sig-object py" id="tests.test_main.client">
+<span class="sig-prename descclassname"><span class="pre">tests.test_main.</span></span><span class="sig-name descname"><span class="pre">client</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;starlette.testclient.TestClient</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#tests.test_main.client" title="Permalink to this definition">¶</a></dt>
+<dd><p>Functional tests main (healthchecker).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_main.test_read_main">
+<span class="sig-prename descclassname"><span class="pre">tests.test_main.</span></span><span class="sig-name descname"><span class="pre">test_read_main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_main.test_read_main" title="Permalink to this definition">¶</a></dt>
+<dd><p>The test_read_main function tests the /api/healthchecker endpoint.
+It does so by making a GET request to that endpoint and asserting that the response is 200 OK,
+and also asserts that the JSON response body is {&amp;quot;message&amp;quot;: &amp;quot;Welcome to FastAPI!&amp;quot;}.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A response object</p>
+</dd>
+<dt class="field-even">Doc-author<span class="colon">:</span></dt>
+<dd class="field-even"><p>Trelent</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-tests.test_route_auth">
+<span id="rest-api-tests-testfunctionalauth"></span><h1>REST API tests TestFunctionalAuth<a class="headerlink" href="#module-tests.test_route_auth" title="Permalink to this heading">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_route_auth.test_create_user">
+<span class="sig-prename descclassname"><span class="pre">tests.test_route_auth.</span></span><span class="sig-name descname"><span class="pre">test_create_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">monkeypatch</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_route_auth.test_create_user" title="Permalink to this definition">¶</a></dt>
+<dd><p>The test_create_user function tests the /api/auth/signup endpoint.
+It does so by creating a user object, and then using the client to send a POST request to the endpoint with that user as JSON data.
+The response is then checked for status code 201 (created), and if it passes, we check that the email in our payload matches what we sent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>client</strong> – Test the api</p></li>
+<li><p><strong>user</strong> – Create a new user in the database</p></li>
+<li><p><strong>monkeypatch</strong> – Mock the send_email function</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A 201 status code and the email of the user</p>
+</dd>
+<dt class="field-odd">Doc-author<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Trelent</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_route_auth.test_login_user">
+<span class="sig-prename descclassname"><span class="pre">tests.test_route_auth.</span></span><span class="sig-name descname"><span class="pre">test_login_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_route_auth.test_login_user" title="Permalink to this definition">¶</a></dt>
+<dd><p>The test_login_user function tests the login endpoint.
+It first confirms the user, then logs in with their email and password.
+The response is checked for a 200 status code and a token_type of &amp;quot;bearer&amp;quot;.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>client</strong> – Make requests to the flask application</p></li>
+<li><p><strong>user</strong> – Create a new user in the database</p></li>
+<li><p><strong>session</strong> – Create a user in the database</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A payload containing a token_type of bearer</p>
+</dd>
+<dt class="field-odd">Doc-author<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Trelent</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_route_auth.test_login_user_not_confirmed_email">
+<span class="sig-prename descclassname"><span class="pre">tests.test_route_auth.</span></span><span class="sig-name descname"><span class="pre">test_login_user_not_confirmed_email</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_route_auth.test_login_user_not_confirmed_email" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>The test_login_user_not_confirmed_email function tests that a user cannot login if their email is not confirmed.</dt><dd><p>The test_login_user_not_confirmed_email function takes in the client and user fixtures as parameters.
+The response variable stores the result of calling the post method on our client object, passing in &amp;quot;/api/auth/login&amp;quot; as an argument to get our /api/auth/login endpoint, and passing in data={&amp;quot;username&amp;quot;: user.get(&amp;quot;email&amp;quot;), &amp;quot;password&amp;quot;: user.get(&amp;quot;password&amp;quot;)} to send a POST request with JSON data containing username and password keys set to values from our fixture’s dictionary.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>client</strong> – Make requests to the flask application</p></li>
+<li><p><strong>user</strong> – Pass the user data to the test function</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An error message</p>
+</dd>
+<dt class="field-odd">Doc-author<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Trelent</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_route_auth.test_login_user_with_wrong_email">
+<span class="sig-prename descclassname"><span class="pre">tests.test_route_auth.</span></span><span class="sig-name descname"><span class="pre">test_login_user_with_wrong_email</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_route_auth.test_login_user_with_wrong_email" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>The test_login_user_with_wrong_email function tests the login endpoint with a wrong email.</dt><dd><p>It should return 401 and an error message.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>client</strong> – Make requests to the api</p></li>
+<li><p><strong>user</strong> – Create a user in the database</p></li>
+<li><p><strong>session</strong> – Create a new user in the database</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A 401 status code and a payload with the detail &amp;quot;invalid email&amp;quot;</p>
+</dd>
+<dt class="field-odd">Doc-author<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Trelent</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_route_auth.test_login_user_with_wrong_password">
+<span class="sig-prename descclassname"><span class="pre">tests.test_route_auth.</span></span><span class="sig-name descname"><span class="pre">test_login_user_with_wrong_password</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_route_auth.test_login_user_with_wrong_password" title="Permalink to this definition">¶</a></dt>
+<dd><p>The test_login_user_with_wrong_password function tests the login endpoint with a user that has been confirmed, but
+with an incorrect password. The test should return a 401 status code and an error message.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>client</strong> – Make requests to the application</p></li>
+<li><p><strong>user</strong> – Create a new user in the database</p></li>
+<li><p><strong>session</strong> – Create a new user in the database</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The following:</p>
+</dd>
+<dt class="field-odd">Doc-author<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Trelent</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_route_auth.test_repeat_create_user">
+<span class="sig-prename descclassname"><span class="pre">tests.test_route_auth.</span></span><span class="sig-name descname"><span class="pre">test_repeat_create_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">monkeypatch</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_route_auth.test_repeat_create_user" title="Permalink to this definition">¶</a></dt>
+<dd><p>The test_repeat_create_user function tests that a user cannot be created twice.
+It does this by first creating a user, then attempting to create the same user again.
+The second attempt should fail with an HTTP 409 status code and an error message.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>client</strong> – Make requests to the api</p></li>
+<li><p><strong>user</strong> – Create a user in the database before each test</p></li>
+<li><p><strong>monkeypatch</strong> – Mock the send_email function</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A 409 status code</p>
+</dd>
+<dt class="field-odd">Doc-author<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Trelent</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
 <section id="indices-and-tables">
 <h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this heading">¶</a></h1>
 <ul class="simple">
@@ -1857,6 +2042,26 @@ The test asserts that None is returned.</p>
 <li><a class="reference internal" href="#tests.test_unit_repository_contacts.TestContacts.test_update_not_found"><code class="docutils literal notranslate"><span class="pre">TestContacts.test_update_not_found()</span></code></a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-tests.conftest">REST API tests ConfTest</a><ul>
+<li><a class="reference internal" href="#tests.conftest.client"><code class="docutils literal notranslate"><span class="pre">client()</span></code></a></li>
+<li><a class="reference internal" href="#tests.conftest.session"><code class="docutils literal notranslate"><span class="pre">session()</span></code></a></li>
+<li><a class="reference internal" href="#tests.conftest.user"><code class="docutils literal notranslate"><span class="pre">user()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-tests.test_main">REST API tests TestFunctionalMain</a><ul>
+<li><a class="reference internal" href="#tests.test_main.client"><code class="docutils literal notranslate"><span class="pre">client</span></code></a></li>
+<li><a class="reference internal" href="#tests.test_main.test_read_main"><code class="docutils literal notranslate"><span class="pre">test_read_main()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-tests.test_route_auth">REST API tests TestFunctionalAuth</a><ul>
+<li><a class="reference internal" href="#tests.test_route_auth.test_create_user"><code class="docutils literal notranslate"><span class="pre">test_create_user()</span></code></a></li>
+<li><a class="reference internal" href="#tests.test_route_auth.test_login_user"><code class="docutils literal notranslate"><span class="pre">test_login_user()</span></code></a></li>
+<li><a class="reference internal" href="#tests.test_route_auth.test_login_user_not_confirmed_email"><code class="docutils literal notranslate"><span class="pre">test_login_user_not_confirmed_email()</span></code></a></li>
+<li><a class="reference internal" href="#tests.test_route_auth.test_login_user_with_wrong_email"><code class="docutils literal notranslate"><span class="pre">test_login_user_with_wrong_email()</span></code></a></li>
+<li><a class="reference internal" href="#tests.test_route_auth.test_login_user_with_wrong_password"><code class="docutils literal notranslate"><span class="pre">test_login_user_with_wrong_password()</span></code></a></li>
+<li><a class="reference internal" href="#tests.test_route_auth.test_repeat_create_user"><code class="docutils literal notranslate"><span class="pre">test_repeat_create_user()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>

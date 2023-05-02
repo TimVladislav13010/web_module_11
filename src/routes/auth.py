@@ -1,7 +1,6 @@
 from fastapi import APIRouter, HTTPException, Depends, status, Security, BackgroundTasks, Request
 from fastapi.security import OAuth2PasswordRequestForm, HTTPAuthorizationCredentials, HTTPBearer
 from sqlalchemy.orm import Session
-from fastapi_limiter.depends import RateLimiter
 
 from src.database.db import get_db
 from src.schemas import UserModel, UserResponse, TokenModel, RequestEmail
@@ -20,8 +19,7 @@ security = HTTPBearer()
 
 
 @router.post("/signup", response_model=UserResponse,
-             status_code=status.HTTP_201_CREATED,
-             dependencies=[Depends(RateLimiter(times=2, seconds=5))])
+             status_code=status.HTTP_201_CREATED)
 async def signup(body: UserModel, background_tasks: BackgroundTasks, request: Request, db: Session = Depends(get_db)):
     """
     The signup function creates a new user in the database.
@@ -45,7 +43,7 @@ async def signup(body: UserModel, background_tasks: BackgroundTasks, request: Re
     return new_user
 
 
-@router.post("/login", response_model=TokenModel, dependencies=[Depends(RateLimiter(times=2, seconds=5))])
+@router.post("/login", response_model=TokenModel)
 async def login(body: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     """
     The login function is used to authenticate a user.

@@ -107,6 +107,30 @@ REST API tests TestUnitRepositoryContacts
   :show-inheritance:
 
 
+REST API tests ConfTest
+=======================
+.. automodule:: tests.conftest
+  :members:
+  :undoc-members:
+  :show-inheritance:
+
+
+REST API tests TestFunctionalMain
+=================================
+.. automodule:: tests.test_main
+  :members:
+  :undoc-members:
+  :show-inheritance:
+
+
+REST API tests TestFunctionalAuth
+=================================
+.. automodule:: tests.test_route_auth
+  :members:
+  :undoc-members:
+  :show-inheritance:
+
+
 Indices and tables
 ==================
 

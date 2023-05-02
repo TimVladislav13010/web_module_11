@@ -60,7 +60,7 @@ async def custom_middleware(request: Request, call_next):
     return response
 
 
-@app.get("/api/healthchecker", dependencies=[Depends(RateLimiter(times=2, seconds=5))])
+@app.get("/api/healthchecker")
 def healthchecker(db: Session = Depends(get_db)):
     """
     The healthchecker function is a simple function that checks the health of the database.
